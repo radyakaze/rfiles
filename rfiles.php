@@ -40,13 +40,8 @@ if ($post['chat']['type'] == 'private') {
           $req = array(
             'action' => 'sendMessage',
             'data' => array(
-              'text' => "Share your file with everyone.\n\n
-                - /list - Show a list of your shared files.\n
-                - /delete <b>&lt;FILE ID&gt;</b> - Delete a file.\n
-                - /about - Show info about bot.\n
-                - /help - Show this help.\n\n
-
-                Send me a document to start uploading. Make sure you attach it as file, not as an image or video."
+              'text' => "Share your file with everyone.\n\n- /start <b>&lt;FILE ID&gt;</b> - Get a file by id.\n- /list - Show a list of your shared files.\n- /delete <b>&lt;FILE ID&gt;</b> - Delete a file.\n- /about - Show info about bot.\n- /help - Show this help.\n\nSend me a document to start uploading. Make sure you attach it as file, not as an image or video.",
+              'parse_mode' => 'html'
               )
             );
         } else {
@@ -95,7 +90,7 @@ if ($post['chat']['type'] == 'private') {
       // delete command
       case '/delete':
         if (empty($ex[1])) {
-          $req['data']['text'] = "/delete <b>&lt;FILE ID&gt;</b>\nSee FILE ID: /list";
+          $req['data']['text'] = "/delete <b>&lt;FILE ID&gt;</b>\nTo see FILE ID: /list";
         } else {
 
           $count = $db->querySingle('SELECT COUNT(`id`) FROM `rfiles_bot` WHERE `uploader` = "'.$post['from']['id'].'" AND `id` = "'.SQLite3::escapeString($ex[1]).'"');
@@ -116,9 +111,7 @@ if ($post['chat']['type'] == 'private') {
         $req = array(
           'action' => 'sendMessage',
           'data' => array(
-            'text' => "RFiles Bot by @error_log\n
-            Released under the GNU GPLv2.0.\n
-            Source code: https://github.com/radyakaze/rfiles"
+            'text' => "RFiles Bot by @error_log\nReleased under the GNU GPLv2.0.\nSource code: https://github.com/radyakaze/rfiles"
             )
           );
       break;
